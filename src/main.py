@@ -30,15 +30,27 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
+
+#es para hacer consultas a una base de datos query
 @app.route('/user', methods=['GET'])
-def handle_hello():
+def get_users():
+    all_user = User.query.all()
 
-    response_body = {
-        "msg": "Hello, this is your GET /user response "
-    }
-   
+    result = list(map(lambda x: x.serialize(), all_user))
 
-    return jsonify( response_body), 200
+    return jsonify(result), 200
+
+#int
+@app.route('/user/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    user = User.query.get(user_id)
+    
+    if user is None :
+        raise APIException("usuario no registrado", 404)
+
+    result = user.serialize()
+    
+    return jsonify(result), 200
 
 
 
