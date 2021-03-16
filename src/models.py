@@ -1,18 +1,21 @@
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()# es una extencion de python para hacer bases de datos
+# es una extencion de python para hacer bases de datos
+db = SQLAlchemy()
 
+#
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     genero = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    favorites = db.relationship('Favorites', lazy=True)
+    favorites = db.relationship('Favorites', lazy=True)#se va relacionar con la tabla de favoritos
 
     def __repr__(self):
         return '<User %r>' % self.id
-#
+
+# serialize me devuelve un diccionario= obj
     def serialize(self):
         return {
             "id": self.id,
@@ -61,9 +64,9 @@ class Planetas(db.Model):
             "climate":self.climate,
             "population":self.population,
             "gravity":self. gravity,
-            "orbita_period":self.orbita_period,
+            "orbital_period":self.orbital_period,
             "diameter":self.diameter,
-            "rotation_period":self.rotation_periods
+            "rotation_period":self.rotation_period
         }
 class Favorites(db.Model):
     __tablename__ = 'favorites'
@@ -80,8 +83,7 @@ class Favorites(db.Model):
             "user_id":self.user_id,
             "favorito":self.favorito
         }
-    
-    
-            
+#user_di almacena el id del usuario cn el q se hace relacion
+#fav guarda el nombre de plan y personajes  
     
 
